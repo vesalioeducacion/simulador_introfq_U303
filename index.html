@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTRODUCCIÓN A LA FISICOQUÍMICA - Estática, Centro de Masa, Condiciones de Equilibrio y Postura (Facultad de Cs. Médicas - UCCuyo)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f7f9f6;
+        }
+        /* Paleta Institucional UCCuyo (Verde Oliva) */
+        .text-accent { color: #436600; }
+        .bg-accent { background-color: #436600; }
+        .bg-accent-hover:hover { background-color: #324d00; }
+        .bg-accent-light { background-color: #f1f6eb; }
+        .border-accent { border-color: #436600; }
+
+        .text-primary { color: #436600; }
+        .bg-primary { background-color: #436600; }
+        .bg-primary-dark { background-color: #324d00; }
+        .border-primary { border-color: #436600; }
+        
+        .focus-accent:focus {
+            border-color: #436600;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+        }
+        
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .canvas-bg {
+            background: radial-gradient(circle at center, #ffffff 0%, #f4f7f0 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Cabecera Institucional UCCuyo -->
+    <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    K
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 tracking-wide uppercase">INTRODUCCIÓN A LA FISICOQUÍMICA</h1>
+                    <p class="text-xs text-gray-500 font-semibold">Lic. en Kinesiología y Fisiatría (Facultad de Cs. Médicas - UCCuyo)</p>
+                </div>
+            </div>
+            
+            <!-- Botón Guía de Uso -->
+            <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Guía de Uso
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal con Barra Lateral -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Menú de Navegación Lateral -->
+        <nav class="w-full lg:w-64 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit">
+            <button onclick="switchTab('tab-estatica')" id="btn-tab-estatica" class="bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition shadow-sm">
+                1. Fundamentos de Estática
+            </button>
+            <button onclick="switchTab('tab-cm-cg')" id="btn-tab-cm-cg" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                2. Centro de Masa & Gravedad
+            </button>
+            <button onclick="switchTab('tab-condiciones')" id="btn-tab-condiciones" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                3. Condiciones de Equilibrio
+            </button>
+            <button onclick="switchTab('tab-postura')" id="btn-tab-postura" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                4. Postura, Base & Estabilidad
+            </button>
+        </nav>
+
+        <!-- Área de Contenido Dinámico -->
+        <div class="flex-1 space-y-6">
+
+            <!-- ==========================================
+                 MÓDULO 1: FUNDAMENTOS DE ESTÁTICA Y REPOSO
+                 ========================================== -->
+            <section id="tab-estatica" class="space-y-6">
+                <!-- Introducción -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md">Módulo 1</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Fundamentos de Estática y Reposo Biomecánico</h2>
+                        </div>
+                        <div class="text-xs text-gray-500 max-w-xs">
+                            Estudio riguroso de cuerpos en equilibrio sin aceleración lineal ni angular.
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        La <strong>estática</strong> es la rama de la mecánica clásica y biofísica que analiza los sistemas materiales y biológicos en <strong>estado de reposo o equilibrio estático</strong>. Un cuerpo se encuentra en equilibrio estático estricto cuando no experimenta aceleración lineal traslacional en ningún eje cartesiano (<strong>a_cm = 0</strong>) ni aceleración angular rotatoria (<strong>α = 0</strong>), manteniéndose su cantidad de movimiento y momento angular constantes e iguales a cero.
+                    </p>
+                </div>
+
+                <!-- Criterios Cinéticos de la Estática -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                        <div class="flex items-center gap-2 text-accent font-bold text-sm">
+                            <i class="fa-solid fa-arrows-alt"></i>
+                            <span>1. Reposo Traslacional (a_cm = 0)</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            La velocidad lineal del centro de masa es nula e invariable en el tiempo (v = 0). Implica que la suma vectorial de todas las fuerzas externas que actúan sobre el sistema biomecánico se anula por completo:
+                        </p>
+                        <div class="bg-accent-light p-3 rounded-xl border border-accent/20 text-center font-mono font-bold text-accent text-sm">
+                            ∑ F = F₁ + F₂ + ... + Fₙ = 0
+                        </div>
+                        <p class="text-[11px] text-gray-500">
+                            En el raquis vertebral en bipedestación estática, la fuerza compresiva de la gravedad es exactamente contrarrestada por la fuerza de reacción normal de los platillos vertebrales y discos intervertebrales.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                        <div class="flex items-center gap-2 text-amber-700 font-bold text-sm">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>2. Reposo Rotacional (α = 0)</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            La velocidad angular es cero (ω = 0) y no existen tendencias de giro alrededor de ningún eje articular. Implica que la suma de todos los momentos de fuerza o torcas generados respecto a cualquier punto es nula:
+                        </p>
+                        <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-center font-mono font-bold text-amber-800 text-sm">
+                            ∑ τ = τ₁ + τ₂ + ... + τₙ = 0
+                        </div>
+                        <p class="text-[11px] text-gray-500">
+                            En la cabeza sobre el atlas (C1), el torque flexor ejercido por el peso anterior del cráneo es equilibrado por el torque extensor de la musculatura posterior del cuello (esplenios y trapecio).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Explorador de Criterios Clínicos -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-stethoscope text-accent"></i>
+                        Trascendencia en la Evaluación Kinefisiátrica
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-200 space-y-1">
+                            <span class="font-bold text-accent">Evaluación Postural Estática:</span>
+                            <p class="text-gray-600">Permite detectar asimetrías de carga, escoliosis y básculas pélvicas donde existen fuerzas no compensadas que fatigan la musculatura estabilizadora.</p>
+                        </div>
+                        <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-200 space-y-1">
+                            <span class="font-bold text-accent">Contracción Isométrica:</span>
+                            <p class="text-gray-600">El músculo genera tensión activa sin modificar su longitud macroscópica ni desplazar la articulación, cumpliendo las condiciones de reposo estático en rehabilitación temprana.</p>
+                        </div>
+                        <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-200 space-y-1">
+                            <span class="font-bold text-accent">Ortesis y Vendajes Funcionales:</span>
+                            <p class="text-gray-600">Las férulas y corsés aplican un sistema de fuerzas estáticas tridimensionales para inmovilizar un segmento óseo fracturado o realinear una articulación inestable.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 MÓDULO 2: CENTRO DE MASA & CENTRO DE GRAVEDAD
+                 ========================================== -->
+            <section id="tab-cm-cg" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md">Módulo 2</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Centro de Masa (CM) y Centro de Gravedad (CG)</h2>
+                        </div>
+                        <div class="text-xs text-gray-500 max-w-xs">
+                            Cálculo de la posición media ponderada de la masa y punto de aplicación del peso.
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        El <strong>Centro de Masa (CM)</strong> es el punto geométrico donde se considera concentrada toda la masa del sistema corporal para el análisis cinemático, calculado como la posición media ponderada de sus masas segmentarias. El <strong>Centro de Gravedad (CG)</strong> es el punto específico donde se aplica la fuerza resultante del peso gravitatorio total (P = m · g). En el cuerpo humano sano en bipedestación anatómica estandarizada, se ubica por delante de la segunda vértebra sacra (S2), aproximadamente al <strong>55% - 57% de la estatura total</strong> del individuo.
+                    </p>
+                </div>
+
+                <!-- Laboratorio Interactivo de Centro de Masa -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                        <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-bullseye text-accent"></i>
+                            Laboratorio de Cargas Segmentarias y Desplazamiento del CM
+                        </h3>
+                        <span class="text-xs text-gray-500 font-mono">Fórmula: X_cm = ∑(mᵢ · xᵢ) / ∑mᵢ</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <!-- Panel de Controles -->
+                        <div class="lg:col-span-5 space-y-3">
+                            <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Añadir Masas al Sistema Plano</h4>
+                            <p class="text-xs text-gray-600">
+                                Modificá las cargas segmentarias para observar en tiempo real cómo se desplazan las coordenadas espaciales del Centro de Masa:
+                            </p>
+
+                            <div class="space-y-2">
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-medium text-gray-700">Masa Segmento Superior (Torso/Brazos):</span>
+                                        <span id="m-upper-val" class="font-bold text-accent font-mono">40 kg</span>
+                                    </div>
+                                    <input type="range" id="slider-m-upper" min="20" max="70" value="40" oninput="updateCMModel()" class="w-full accent-[#436600] cursor-pointer">
+                                </div>
+
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-medium text-gray-700">Masa Segmento Pélvico (Tronco inferior):</span>
+                                        <span id="m-pelvis-val" class="font-bold text-accent font-mono">20 kg</span>
+                                    </div>
+                                    <input type="range" id="slider-m-pelvis" min="10" max="40" value="20" oninput="updateCMModel()" class="w-full accent-[#436600] cursor-pointer">
+                                </div>
+
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-medium text-gray-700">Carga Externa en Manos (Pesas/Mochila):</span>
+                                        <span id="m-load-val" class="font-bold text-amber-600 font-mono">0 kg</span>
+                                    </div>
+                                    <input type="range" id="slider-m-load" min="0" max="30" value="0" oninput="updateCMModel()" class="w-full accent-amber-600 cursor-pointer">
+                                </div>
+                            </div>
+
+                            <!-- Ficha de Datos Inmediata -->
+                            <div class="bg-accent-light p-3.5 rounded-xl border border-accent/20 text-xs space-y-1.5">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Masa Corporal Total:</span>
+                                    <strong id="cm-total-mass" class="font-mono text-gray-800 font-bold">60.0 kg</strong>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Altura del Centro de Gravedad (Y_cg):</span>
+                                    <strong id="cm-coord-y" class="font-mono text-accent font-bold">96.7 cm (S2)</strong>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Desplazamiento Horizontal (X_cg):</span>
+                                    <strong id="cm-coord-x" class="font-mono text-gray-800 font-bold">0.0 cm (Centrado)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canvas de Representación Gráfica -->
+                        <div class="lg:col-span-7 bg-gray-900 rounded-2xl p-5 text-white flex flex-col items-center justify-between min-h-[320px] relative shadow-inner">
+                            <div class="w-full flex justify-between items-center text-xs text-gray-400">
+                                <span>Visualizador Biomecánico de Cargas</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-accent/30 text-emerald-300 border border-emerald-500/30">Plano Sagital</span>
+                            </div>
+
+                            <canvas id="canvasCM" width="460" height="250" class="w-full h-auto max-w-full rounded-lg"></canvas>
+
+                            <div class="w-full text-center text-xs text-gray-300 mt-2 font-sans" id="cm-status-legend">
+                                El Centro de Gravedad se localiza en la pelvis (nivel S2). La carga simétrica no desvía el eje sagital.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 MÓDULO 3: LAS DOS CONDICIONES DE EQUILIBRIO
+                 ========================================== -->
+            <section id="tab-condiciones" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md">Módulo 3</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Las Dos Condiciones de Equilibrio y Palancas Biomecánicas</h2>
+                        </div>
+                        <div class="text-xs text-gray-500 max-w-xs">
+                            Equilibrio traslacional (∑F = 0) y equilibrio rotacional (∑τ = 0).
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Para que un segmento anatómico o un paciente se encuentre en equilibrio estático pleno, deben cumplirse simultáneamente dos condiciones ineludibles: <strong>1) La resultante de fuerzas externas debe ser nula (∑F = 0)</strong> para impedir la traslación, y <strong>2) La suma de todas las torcas o momentos de torsión respecto a cualquier eje articular debe ser nula (∑τ = 0)</strong> para impedir la rotación.
+                    </p>
+                </div>
+
+                <!-- Simulador de Palanca Articular / Balancín Biomecánico -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                        <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-accent"></i>
+                            Palanca Musculoesquelética: Momento de Fuerza (Torca = F · d)
+                        </h3>
+                        <span class="text-xs text-gray-500 font-mono">∑τ = τ_muscular - τ_resistencia = 0</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <!-- Panel de Controles -->
+                        <div class="lg:col-span-5 space-y-3 text-xs">
+                            <p class="text-gray-600">
+                                Modificá la fuerza muscular y las distancias al eje articular para nivelar el balancín óseo:
+                            </p>
+
+                            <div class="space-y-2">
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="font-medium text-gray-700">Fuerza Muscular (F₁):</span>
+                                        <span id="p-f1-val" class="font-bold text-accent font-mono">60 N</span>
+                                    </div>
+                                    <input type="range" id="slider-f1" min="10" max="150" value="60" oninput="updateLeverBalance()" class="w-full accent-[#436600] cursor-pointer">
+                                </div>
+
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="font-medium text-gray-700">Brazo de Potencia Muscular (d₁):</span>
+                                        <span id="p-d1-val" class="font-bold text-accent font-mono">5.0 cm</span>
+                                    </div>
+                                    <input type="range" id="slider-d1" min="2" max="10" step="0.5" value="5" oninput="updateLeverBalance()" class="w-full accent-[#436600] cursor-pointer">
+                                </div>
+
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="font-medium text-gray-700">Resistencia Externa (Peso en mano R₂):</span>
+                                        <span id="p-r2-val" class="font-bold text-amber-700 font-mono">10 N</span>
+                                    </div>
+                                    <input type="range" id="slider-r2" min="5" max="50" value="10" oninput="updateLeverBalance()" class="w-full accent-amber-600 cursor-pointer">
+                                </div>
+
+                                <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="font-medium text-gray-700">Brazo de Resistencia (d₂):</span>
+                                        <span id="p-d2-val" class="font-bold text-amber-700 font-mono">30.0 cm</span>
+                                    </div>
+                                    <input type="range" id="slider-d2" min="15" max="40" step="1" value="30" oninput="updateLeverBalance()" class="w-full accent-amber-600 cursor-pointer">
+                                </div>
+                            </div>
+
+                            <!-- Ficha de Cálculo de Torcas -->
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 text-xs space-y-1">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Torca Muscular (τ₁ = F₁ · d₁):</span>
+                                    <strong id="calc-tau1" class="font-mono text-accent">3.00 N·m</strong>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Torca Resistiva (τ₂ = R₂ · d₂):</span>
+                                    <strong id="calc-tau2" class="font-mono text-amber-700">3.00 N·m</strong>
+                                </div>
+                                <div class="flex justify-between pt-1 border-t border-gray-200">
+                                    <span class="text-gray-700 font-bold">Torca Neta (∑τ = τ₁ - τ₂):</span>
+                                    <strong id="calc-tau-net" class="font-mono text-emerald-600 font-bold">0.00 N·m (Equilibrio)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Palanca -->
+                        <div class="lg:col-span-7 bg-gray-900 rounded-2xl p-5 text-white flex flex-col items-center justify-between min-h-[320px] relative shadow-inner">
+                            <div class="w-full flex justify-between items-center text-xs text-gray-400">
+                                <span>Simulación de Palanca Ósea (Articulación del Codo)</span>
+                                <span id="lever-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-900 text-emerald-300 border border-emerald-700">Equilibrio Rotacional Pleno</span>
+                            </div>
+
+                            <canvas id="canvasLever" width="460" height="240" class="w-full h-auto max-w-full rounded-lg my-2"></canvas>
+
+                            <div class="w-full text-center text-xs text-gray-300 font-sans" id="lever-status-text">
+                                La torca muscular contrarresta con precisión la torca gravitatoria externa. No hay rotación articular.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 MÓDULO 4: POSTURA, BASE DE SUSTENTACIÓN Y ESTABILIDAD
+                 ========================================== -->
+            <section id="tab-postura" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-1 rounded-md">Módulo 4</span>
+                            <h2 class="text-xl font-bold text-gray-800 mt-1">Postura Corporal, Base de Sustentación y Estabilidad</h2>
+                        </div>
+                        <div class="text-xs text-gray-500 max-w-xs">
+                            Biomecánica de la inclinación del tronco, ajuste pélvico y prevención de caídas.
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        La <strong>base de sustentación (BDS)</strong> es el polígono delimitado por los bordes externos de ambos pies en contacto con el suelo. Para que el cuerpo humano conserve un <strong>equilibrio estático estable</strong>, la línea de acción vertical que desciende desde el Centro de Gravedad debe proyectarse estrictamente <em>dentro</em> de dicha base. Cuando una persona inclina su tronco hacia adelante con las piernas rígidas, la línea del CG sale de la base provocando caída inestable; el sistema nervioso activa entonces un <strong>retraso instintivo de las caderas</strong> que reubica la vertical dentro del polígono de soporte.
+                    </p>
+                </div>
+
+                <!-- Estación Biomecánica en Tiempo Real -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <!-- Panel de Controles -->
+                        <div class="lg:col-span-5 space-y-4 text-xs">
+                            <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Control de la Inclinación Postural</h3>
+
+                            <div class="space-y-2">
+                                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                    <div class="flex justify-between mb-1.5 font-semibold text-gray-700">
+                                        <span>Ángulo de Inclinación Anterior del Tronco:</span>
+                                        <span id="posture-angle-display" class="font-mono text-accent font-bold">0°</span>
+                                    </div>
+                                    <input type="range" id="slider-posture-angle" min="0" max="45" value="0" oninput="updatePostureSim()" class="w-full accent-[#436600] cursor-pointer">
+                                    <div class="flex justify-between text-[10px] text-gray-400 mt-1">
+                                        <span>0° (Erecto)</span>
+                                        <span>45° (Inclinación severa)</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 flex items-center justify-between">
+                                    <div>
+                                        <span class="font-bold text-gray-800 block">Compensación Retropélvica:</span>
+                                        <span class="text-[10px] text-gray-500">Retraso instintivo de caderas</span>
+                                    </div>
+                                    <button onclick="togglePelvicCompensation()" id="btn-pelvis-comp" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
+                                        Compensación: OFF
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Ficha de Diagnóstico Postural -->
+                            <div id="posture-diag-box" class="p-3.5 rounded-xl border text-xs space-y-1 bg-emerald-50 border-emerald-200 text-emerald-800">
+                                <div class="font-bold flex items-center gap-1.5" id="posture-diag-title">
+                                    <i class="fa-solid fa-shield-halved text-emerald-600"></i> Estado: Equilibrio Estable
+                                </div>
+                                <p class="text-gray-600" id="posture-diag-desc">
+                                    La plomada del Centro de Gravedad pasa cómodamente por el centro de la base de sustentación podálica.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Biomecánico Humano -->
+                        <div class="lg:col-span-7 bg-gray-900 rounded-2xl p-5 text-white flex flex-col items-center justify-between min-h-[340px] relative shadow-inner">
+                            <div class="w-full flex justify-between items-center text-xs text-gray-400">
+                                <span>Simulador de Plomada Gravitacional (BDS)</span>
+                                <span id="posture-canvas-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-900 text-emerald-300 border border-emerald-700">CG Dentro de Base</span>
+                            </div>
+
+                            <canvas id="canvasPosture" width="460" height="260" class="w-full h-auto max-w-full rounded-lg my-2"></canvas>
+
+                            <div class="w-full text-center text-xs text-gray-300 font-sans" id="posture-canvas-text">
+                                Línea vertical de gravedad proyectada dentro de la base de sustentación de los pies (verde).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tipos de Equilibrio Mecánico -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-1.5">
+                        <div class="font-bold text-accent flex items-center gap-1.5">
+                            <i class="fa-solid fa-check-circle"></i>
+                            Equilibrio Estable
+                        </div>
+                        <p class="text-gray-600">
+                            Ante una leve fuerza perturbadora externa, el cuerpo genera un momento restaurador intrínseco que lo hace volver a su posición inicial (ej. bipedestación con caderas compensadas).
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-1.5">
+                        <div class="font-bold text-rose-600 flex items-center gap-1.5">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Equilibrio Inestable
+                        </div>
+                        <p class="text-gray-600">
+                            Cualquier pequeña desviación aleja progresivamente al Centro de Gravedad de la posición inicial aumentando el torque desbalanceado hasta provocar la caída (ej. pararse en puntas de pie).
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-1.5">
+                        <div class="font-bold text-blue-600 flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-dot"></i>
+                            Equilibrio Indiferente (Neutro)
+                        </div>
+                        <p class="text-gray-600">
+                            Al ser desplazado, la altura y relación del Centro de Gravedad respecto a la superficie de apoyo no cambian, encontrando un nuevo equilibrio instantáneo (ej. una esfera sobre un plano horizontal).
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Modal: Guía de Uso -->
+    <div id="modal-tutorial" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white max-w-3xl w-full rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="bg-accent p-4 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    <h3 class="font-bold text-base">Guía de Uso del Simulador y Orientación Pedagógica</h3>
+                </div>
+                <button onclick="closeTutorial()" class="text-white hover:text-gray-200 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto space-y-5 text-xs md:text-sm text-gray-600 custom-scroll leading-relaxed">
+                <div>
+                    <h4 class="font-bold text-gray-800 text-sm mb-1 text-accent flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye"></i> 1. Propósito Tecnopedagógico
+                    </h4>
+                    <p>
+                        Este simulador interactivo permite a los estudiantes del curso de ingreso a la <strong>Licenciatura en Kinesiología y Fisiatría (Facultad de Ciencias Médicas - Universidad Católica de Cuyo)</strong> comprender los principios fisicoquímicos y biofísicos de la estática, el cálculo del centro de masa, el cumplimiento de las dos condiciones de equilibrio en palancas articulares y el análisis de la estabilidad postural humana.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-800 text-sm mb-2 text-accent flex items-center gap-2">
+                        <i class="fa-solid fa-compass"></i> 2. Guía Paso a Paso de los Módulos
+                    </h4>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                            <span class="font-bold text-gray-800 text-xs text-accent">Módulo 1: Fundamentos de Estática y Reposo</span>
+                            <p class="text-xs text-gray-600 mt-1">
+                                • <strong>Reposo Absoluto:</strong> Estudiá la ausencia simultánea de aceleración lineal (<i>a</i><sub>cm</sub> = 0) y rotacional (<i>α</i> = 0).<br>
+                                • <strong>Correlato Clínico:</strong> Analizá el reposo en contracciones isométricas, alineación vertebral y fijación ortésica.
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                            <span class="font-bold text-gray-800 text-xs text-accent">Módulo 2: Centro de Masa (CM) & Gravedad (CG)</span>
+                            <p class="text-xs text-gray-600 mt-1">
+                                • <strong>Cálculo Ponderado:</strong> Variá las masas del torso, pelvis y cargas externas para observar cómo el punto de gravedad asciende o desciende respecto a la vértebra S2.<br>
+                                • <strong>Canvas Sagital:</strong> Visualizá la distribución de las cargas corporales en tiempo real.
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                            <span class="font-bold text-gray-800 text-xs text-accent">Módulo 3: Condiciones de Equilibrio</span>
+                            <p class="text-xs text-gray-600 mt-1">
+                                • <strong>Palanca Articular:</strong> Modificá la fuerza muscular (<i>F</i><sub>1</sub>), el brazo de potencia (<i>d</i><sub>1</sub>), la resistencia (<i>R</i><sub>2</sub>) y el brazo de resistencia (<i>d</i><sub>2</sub>).<br>
+                                • <strong>Nivelación de Torcas:</strong> Corroborá el equilibrio rotacional exacto cuando ∑ <i>τ</i> = <i>τ</i><sub>1</sub> - <i>τ</i><sub>2</sub> = 0.
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                            <span class="font-bold text-gray-800 text-xs text-accent">Módulo 4: Postura, Base & Estabilidad</span>
+                            <p class="text-xs text-gray-600 mt-1">
+                                • <strong>Inclinación del Tronco:</strong> Modificá el ángulo de flexión anterior de 0° a 45°.<br>
+                                • <strong>Ajuste de Caderas:</strong> Activá y desactivá la compensación retropélvica para comprobar por qué el retroceso de caderas salva la postura al mantener la línea vertical del CG dentro de la base de los pies.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-800 text-sm mb-1 text-accent flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb"></i> 3. Navegación Libre y sin Penalizaciones
+                    </h4>
+                    <p>
+                        El entorno promueve el aprendizaje activo universitario de la UCCuyo: no existen bloqueos forzados ni puntuaciones punitivas. Podés experimentar, modificar variables y consultar los fundamentos biomecánicos tantas veces como sea necesario.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+                <button onclick="closeTutorial()" class="px-4 py-2 bg-accent text-white rounded-xl text-xs font-semibold hover:bg-accent-hover transition">
+                    Entendido, comenzar exploración
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de Página Institucional -->
+    <footer class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500 mt-12">
+        <p>Desarrollado por vesalio - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Lógica de la Aplicación en JavaScript -->
+    <script>
+        // Navegación entre Módulos
+        function switchTab(tabId) {
+            const tabs = ['tab-estatica', 'tab-cm-cg', 'tab-condiciones', 'tab-postura'];
+            const buttons = ['btn-tab-estatica', 'btn-tab-cm-cg', 'btn-tab-condiciones', 'btn-tab-postura'];
+
+            tabs.forEach(t => {
+                const el = document.getElementById(t);
+                if (el) el.classList.add('hidden');
+            });
+
+            buttons.forEach(b => {
+                const btn = document.getElementById(b);
+                if (btn) {
+                    btn.className = 'text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition';
+                }
+            });
+
+            const activeTab = document.getElementById(tabId);
+            const activeBtn = document.getElementById('btn-' + tabId);
+
+            if (activeTab) activeTab.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.className = 'bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition shadow-sm';
+            }
+
+            if (tabId === 'tab-cm-cg') {
+                setTimeout(updateCMModel, 50);
+            } else if (tabId === 'tab-condiciones') {
+                setTimeout(updateLeverBalance, 50);
+            } else if (tabId === 'tab-postura') {
+                setTimeout(updatePostureSim, 50);
+            }
+        }
+
+        // Modal Tutorial
+        function openTutorial() {
+            document.getElementById('modal-tutorial').classList.remove('hidden');
+        }
+        function closeTutorial() {
+            document.getElementById('modal-tutorial').classList.add('hidden');
+        }
+
+        // =================================================================
+        // MÓDULO 2: CENTRO DE MASA & CENTRO DE GRAVEDAD
+        // =================================================================
+        function updateCMModel() {
+            const mUpper = parseFloat(document.getElementById('slider-m-upper').value);
+            const mPelvis = parseFloat(document.getElementById('slider-m-pelvis').value);
+            const mLoad = parseFloat(document.getElementById('slider-m-load').value);
+
+            document.getElementById('m-upper-val').textContent = mUpper + ' kg';
+            document.getElementById('m-pelvis-val').textContent = mPelvis + ' kg';
+            document.getElementById('m-load-val').textContent = mLoad + ' kg';
+
+            const totalM = mUpper + mPelvis + mLoad;
+            document.getElementById('cm-total-mass').textContent = totalM.toFixed(1) + ' kg';
+
+            // Coordenadas Y segmentarias (desde el suelo en cm)
+            const yUpper = 130;  // Tórax y brazos
+            const yPelvis = 90;  // Pelvis S2
+            const yLoad = 80;    // Manos a los costados
+
+            const yCM = (mUpper * yUpper + mPelvis * yPelvis + mLoad * yLoad) / totalM;
+            document.getElementById('cm-coord-y').textContent = yCM.toFixed(1) + ' cm';
+
+            // Coordenadas X (desvío si hay carga frontal)
+            const xLoad = 25; // 25 cm por delante
+            const xCM = (mLoad * xLoad) / totalM;
+            document.getElementById('cm-coord-x').textContent = (xCM > 0 ? '+' : '') + xCM.toFixed(1) + ' cm ' + (xCM > 1 ? '(Desvío Anterior)' : '(Centrado)');
+
+            // Dibujar Canvas CM
+            const canvas = document.getElementById('canvasCM');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const originX = w * 0.45;
+            const groundY = h - 25;
+
+            // Suelo
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(originX - 70, groundY);
+            ctx.lineTo(originX + 110, groundY);
+            ctx.stroke();
+
+            // Pies (Base)
+            ctx.fillStyle = '#436600';
+            ctx.fillRect(originX - 15, groundY - 8, 30, 8);
+
+            // Piernas
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(originX, groundY - 8);
+            ctx.lineTo(originX, groundY - 70);
+            ctx.stroke();
+
+            // Pelvis
+            ctx.fillStyle = '#334155';
+            ctx.beginPath();
+            ctx.arc(originX, groundY - 75, 12, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Torso
+            ctx.strokeStyle = '#436600';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(originX, groundY - 80);
+            ctx.lineTo(originX, groundY - 145);
+            ctx.stroke();
+
+            // Cabeza
+            ctx.fillStyle = '#cbd5e1';
+            ctx.beginPath();
+            ctx.arc(originX, groundY - 160, 14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Carga externa si existe
+            if (mLoad > 0) {
+                const loadCanvasX = originX + xLoad * 1.5;
+                const loadCanvasY = groundY - 85;
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(loadCanvasX - 8, loadCanvasY - 8, 16, 16);
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(originX, groundY - 125);
+                ctx.lineTo(loadCanvasX, loadCanvasY);
+                ctx.stroke();
+            }
+
+            // Marcador del Centro de Gravedad calculado
+            const cmCanvasX = originX + xCM * 1.5;
+            const cmCanvasY = groundY - (yCM * 0.85);
+
+            // Plomada gravitacional
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(cmCanvasX, cmCanvasY);
+            ctx.lineTo(cmCanvasX, groundY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Punto CG
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(cmCanvasX, cmCanvasY, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.fillStyle = '#ef4444';
+            ctx.font = 'bold 10px Outfit, sans-serif';
+            ctx.fillText('CG (S2)', cmCanvasX + 10, cmCanvasY + 4);
+
+            const legendEl = document.getElementById('cm-status-legend');
+            if (mLoad > 10) {
+                legendEl.innerHTML = '<span class="text-amber-400 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Desplazamiento Anterior:</span> La carga externa adelanta el Centro de Gravedad, exigiendo mayor tensión de los músculos espinales posteriores para evitar la flexión forzada.';
+            } else {
+                legendEl.textContent = 'El Centro de Gravedad se localiza en la pelvis (nivel S2). La postura permanece simétrica y balanceada.';
+            }
+        }
+
+        // =================================================================
+        // MÓDULO 3: PALANCA Y DOS CONDICIONES DE EQUILIBRIO
+        // =================================================================
+        function updateLeverBalance() {
+            const f1 = parseFloat(document.getElementById('slider-f1').value);
+            const d1 = parseFloat(document.getElementById('slider-d1').value);
+            const r2 = parseFloat(document.getElementById('slider-r2').value);
+            const d2 = parseFloat(document.getElementById('slider-d2').value);
+
+            document.getElementById('p-f1-val').textContent = f1 + ' N';
+            document.getElementById('p-d1-val').textContent = d1.toFixed(1) + ' cm';
+            document.getElementById('p-r2-val').textContent = r2 + ' N';
+            document.getElementById('p-d2-val').textContent = d2.toFixed(1) + ' cm';
+
+            // Torcas: F · d (N · m)
+            const tau1 = f1 * (d1 / 100);
+            const tau2 = r2 * (d2 / 100);
+            const tauNet = tau1 - tau2;
+
+            document.getElementById('calc-tau1').textContent = tau1.toFixed(2) + ' N·m';
+            document.getElementById('calc-tau2').textContent = tau2.toFixed(2) + ' N·m';
+
+            const netEl = document.getElementById('calc-tau-net');
+            const badgeEl = document.getElementById('lever-status-badge');
+            const textEl = document.getElementById('lever-status-text');
+
+            const isBalanced = Math.abs(tauNet) < 0.15;
+
+            if (isBalanced) {
+                netEl.textContent = '0.00 N·m (Equilibrio Rotacional)';
+                netEl.className = 'font-mono text-emerald-600 font-bold';
+                badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-900 text-emerald-300 border border-emerald-700';
+                badgeEl.textContent = 'Equilibrio Rotacional Pleno (∑τ = 0)';
+                textEl.innerHTML = '<span class="text-emerald-400 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Balance Perfecto:</span> La torca muscular contrarresta exactamente la torca de la resistencia externa.';
+            } else if (tauNet > 0) {
+                netEl.textContent = '+' + tauNet.toFixed(2) + ' N·m (Flexión Activa)';
+                netEl.className = 'font-mono text-accent font-bold';
+                badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-900 text-blue-300 border border-blue-700';
+                badgeEl.textContent = 'Aceleración Rotacional (Flexión)';
+                textEl.innerHTML = '<span class="text-accent font-bold">Torca Muscular Dominante:</span> El brazo acelera en sentido flexor concéntrico.';
+            } else {
+                netEl.textContent = tauNet.toFixed(2) + ' N·m (Extensión Forzada)';
+                netEl.className = 'font-mono text-rose-600 font-bold';
+                badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-900 text-rose-300 border border-rose-700';
+                badgeEl.textContent = 'Torca Desbalanceada (Sobrecarga)';
+                textEl.innerHTML = '<span class="text-rose-400 font-bold">Sobrecarga Articular:</span> La resistencia vence la fuerza muscular (movimiento excéntrico o caída).';
+            }
+
+            // Dibujar Palanca
+            const canvas = document.getElementById('canvasLever');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const fulcrumX = w * 0.28;
+            const fulcrumY = h * 0.65;
+
+            // Soporte fulcro
+            ctx.fillStyle = '#64748b';
+            ctx.beginPath();
+            ctx.moveTo(fulcrumX, fulcrumY);
+            ctx.lineTo(fulcrumX - 16, fulcrumY + 30);
+            ctx.lineTo(fulcrumX + 16, fulcrumY + 30);
+            ctx.closePath();
+            ctx.fill();
+
+            // Ángulo de inclinación según desbalance de torca
+            let angle = -tauNet * 0.08;
+            angle = Math.max(-0.25, Math.min(0.25, angle));
+            if (isBalanced) angle = 0;
+
+            ctx.save();
+            ctx.translate(fulcrumX, fulcrumY);
+            ctx.rotate(angle);
+
+            // Barra ósea
+            ctx.fillStyle = '#e2e8f0';
+            ctx.strokeStyle = '#436600';
+            ctx.lineWidth = 5;
+            ctx.strokeRect(-50, -8, 280, 16);
+            ctx.fillRect(-50, -8, 280, 16);
+
+            // Vector Fuerza Muscular
+            const f1Px = -(d1 * 6);
+            ctx.fillStyle = '#436600';
+            ctx.strokeStyle = '#436600';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(f1Px, -8);
+            ctx.lineTo(f1Px, -55);
+            ctx.stroke();
+
+            // Flecha F1
+            ctx.beginPath();
+            ctx.moveTo(f1Px - 4, -45);
+            ctx.lineTo(f1Px, -55);
+            ctx.lineTo(f1Px + 4, -45);
+            ctx.fill();
+
+            ctx.font = 'bold 9px Outfit, sans-serif';
+            ctx.fillText('F_muscular (' + f1 + 'N)', f1Px - 25, -60);
+
+            // Vector Resistencia Externa R2
+            const r2Px = (d2 * 5.2);
+            ctx.fillStyle = '#f59e0b';
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(r2Px, 8);
+            ctx.lineTo(r2Px, 55);
+            ctx.stroke();
+
+            // Flecha R2
+            ctx.beginPath();
+            ctx.moveTo(r2Px - 4, 45);
+            ctx.lineTo(r2Px, 55);
+            ctx.lineTo(r2Px + 4, 45);
+            ctx.fill();
+
+            ctx.fillText('Resistencia (' + r2 + 'N)', r2Px - 20, 70);
+
+            ctx.restore();
+
+            // Eje articular
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(fulcrumX, fulcrumY, 4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // =================================================================
+        // MÓDULO 4: POSTURA, BASE DE SUSTENTACIÓN Y ESTABILIDAD
+        // =================================================================
+        let isPelvisCompensated = false;
+
+        function togglePelvicCompensation() {
+            isPelvisCompensated = !isPelvisCompensated;
+            const btn = document.getElementById('btn-pelvis-comp');
+            if (isPelvisCompensated) {
+                btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-accent text-white shadow-sm transition';
+                btn.textContent = 'Compensación: ACTIVADA (ON)';
+            } else {
+                btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-gray-200 text-gray-700 hover:bg-gray-300 transition';
+                btn.textContent = 'Compensación: OFF (Piernas Rígidas)';
+            }
+            updatePostureSim();
+        }
+
+        function updatePostureSim() {
+            const angle = parseInt(document.getElementById('slider-posture-angle').value);
+            document.getElementById('posture-angle-display').textContent = angle + '°';
+
+            const canvas = document.getElementById('canvasPosture');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const cx = w * 0.5;
+            const groundY = h - 35;
+
+            // Suelo
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(cx - 110, groundY, 220, 8);
+
+            // Base de sustentación podálica (Pies)
+            const footBack = cx - 35;
+            const footFront = cx + 35;
+            ctx.fillStyle = '#436600';
+            ctx.fillRect(footBack, groundY - 10, 20, 10);
+            ctx.fillRect(footFront - 20, groundY - 10, 20, 10);
+
+            // Conexión visual de la base de sustentación
+            ctx.fillStyle = 'rgba(67, 102, 0, 0.25)';
+            ctx.fillRect(footBack, groundY - 10, 70, 10);
+
+            // Desplazamiento retropélvico si compensa
+            let hipOffsetX = 0;
+            if (isPelvisCompensated) {
+                hipOffsetX = -angle * 0.75;
+            }
+
+            // Dibujar piernas
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(cx - 10, groundY - 10);
+            ctx.lineTo(cx + hipOffsetX, groundY - 75);
+            ctx.stroke();
+
+            // Dibujar torso inclinado
+            const hipX = cx + hipOffsetX;
+            const hipY = groundY - 75;
+
+            ctx.save();
+            ctx.translate(hipX, hipY);
+            const rad = (angle * Math.PI) / 180;
+            ctx.rotate(rad);
+
+            ctx.strokeStyle = '#436600';
+            ctx.lineWidth = 9;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -85);
+            ctx.stroke();
+
+            // Cabeza
+            ctx.fillStyle = '#cbd5e1';
+            ctx.beginPath();
+            ctx.arc(0, -98, 13, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Cálculo de proyección del Centro de Gravedad
+            // Sin compensar se adelanta con el ángulo; compensando las caderas retroceden
+            const cmForwardShift = (angle * 1.5) + hipOffsetX;
+            const projectedCMX = cx + cmForwardShift;
+
+            const isStable = projectedCMX >= footBack && projectedCMX <= footFront;
+
+            // Plomada vertical gravitacional
+            ctx.strokeStyle = isStable ? '#10b981' : '#ef4444';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(projectedCMX, groundY - 140);
+            ctx.lineTo(projectedCMX, groundY + 5);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Marcador de punto CG
+            ctx.fillStyle = isStable ? '#10b981' : '#ef4444';
+            ctx.beginPath();
+            ctx.arc(projectedCMX, groundY - 95, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Actualizar banners y leyendas
+            const diagBox = document.getElementById('posture-diag-box');
+            const diagTitle = document.getElementById('posture-diag-title');
+            const diagDesc = document.getElementById('posture-diag-desc');
+            const canvasBadge = document.getElementById('posture-canvas-badge');
+            const canvasText = document.getElementById('posture-canvas-text');
+
+            if (isStable) {
+                diagBox.className = 'p-3.5 rounded-xl border text-xs space-y-1 bg-emerald-50 border-emerald-200 text-emerald-800';
+                diagTitle.innerHTML = '<i class="fa-solid fa-shield-halved text-emerald-600"></i> Estado: Equilibrio Estable';
+                diagDesc.textContent = isPelvisCompensated
+                    ? 'El retraso compensatorio de caderas neutraliza el momento anterior del torso, manteniendo la línea de gravedad dentro de la base podálica.'
+                    : 'La plomada del Centro de Gravedad pasa cómodamente por el centro de la base de sustentación podálica.';
+
+                canvasBadge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-900 text-emerald-300 border border-emerald-700';
+                canvasBadge.textContent = 'CG Dentro de Base (Estable)';
+                canvasText.innerHTML = '<span class="text-emerald-400 font-bold">Postura Estable:</span> La vertical gravitatoria (plomada verde) cae dentro de la base de sustentación.';
+            } else {
+                diagBox.className = 'p-3.5 rounded-xl border text-xs space-y-1 bg-rose-50 border-rose-200 text-rose-800';
+                diagTitle.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-rose-600"></i> Estado: Inestable (Pérdida de Equilibrio / Caída)';
+                diagDesc.textContent = 'Al inclinarse con piernas rígidas, la línea del Centro de Gravedad sobrepasa el límite anterior de los pies, generando un torque desbalanceado que produce caída inminente.';
+
+                canvasBadge.className = 'px-2 py-0.5 rounded text-[10px] font-mono bg-rose-900 text-rose-300 border border-rose-700';
+                canvasBadge.textContent = 'CG Fuera de Base (Caída)';
+                canvasText.innerHTML = '<span class="text-rose-400 font-bold">Pérdida de Equilibrio:</span> La plomada roja desborda la base de apoyo podálica provocando caída hacia adelante.';
+            }
+        }
+
+        // Inicialización al cargar la página
+        window.addEventListener('load', () => {
+            updateCMModel();
+            updateLeverBalance();
+            updatePostureSim();
+        });
+
+        window.addEventListener('resize', () => {
+            updateCMModel();
+            updateLeverBalance();
+            updatePostureSim();
+        });
+    </script>
+</body>
+</html>
